@@ -30,7 +30,6 @@ const ExchangeInfo = ({ chainId }: ExchangeInfoProps) => {
   return (
     <div>
       <div className="title"> {"Exchange Info"} </div>
-      <div className="container"> {exchangeInfo ? proxy : ""} </div>
       <div className="container">
         {!isLoading ? (
           exchangeInfo?.pools.map((poolState) => (
