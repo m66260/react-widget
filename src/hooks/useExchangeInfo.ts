@@ -8,6 +8,7 @@ const useExchangeInfo = (chainId: number) => {
   const [exchangeInfo, setExchangeInfo] = useState<ExchangeInfo>();
   useEffect(() => {
     if (!traderAPI || isAPILoading) {
+      setLoading(isAPILoading);
       return;
     }
     setLoading(true);

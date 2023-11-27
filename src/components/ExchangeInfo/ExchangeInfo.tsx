@@ -1,7 +1,20 @@
-import { PoolState } from "@d8x/perpetuals-sdk";
+import { PerpetualState, PoolState } from "@d8x/perpetuals-sdk";
 import useExchangeInfo from "../../hooks/useExchangeInfo";
 
 import "./ExchangeInfo.css";
+
+const Perpetual = (perp: PerpetualState) => {
+  return (
+    <div className="item">
+      <div className="display-container">
+        <div className="fullname">{`${perp.baseCurrency}-${perp.quoteCurrency}`}</div>
+      </div>
+      <div className="price-container">
+        <div className="price">{perp.state}</div>
+      </div>
+    </div>
+  );
+};
 
 const Pool = (pool: PoolState) => {
   const perps = `${pool.perpetuals.length} perpetuals`;
@@ -10,7 +23,12 @@ const Pool = (pool: PoolState) => {
     <div className="item">
       <div className="display-container">
         <div className="name">{pool.poolSymbol}</div>
-        <div className="fullname">{pool.marginTokenAddr}</div>
+        {/* <div className="fullname">{pool.marginTokenAddr}</div> */}
+        <div className="container">
+          {pool.perpetuals.map((perp) => (
+            <Perpetual key={perp.id} {...perp} />
+          ))}
+        </div>
       </div>
       <div className="price-container">
         <div className="price">{perps}</div>
@@ -26,7 +44,7 @@ interface ExchangeInfoProps {
 
 const ExchangeInfo = ({ chainId }: ExchangeInfoProps) => {
   const { exchangeInfo, isLoading } = useExchangeInfo(chainId);
-  const proxy = `Proxy: ${exchangeInfo?.proxyAddr}`;
+  // const proxy = `Proxy: ${exchangeInfo?.proxyAddr}`;
   return (
     <div>
       <div className="title"> {"Exchange Info"} </div>
